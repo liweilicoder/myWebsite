@@ -1,0 +1,37 @@
+.idea/pyProjectModel.xml
+  s_aa90c57608d995::t_c8ae798c8cc776 1-6
+AGENTS.md
+  s_aa90c57608d995::t_f00a3e85c4203a 1-53
+index.html
+  s_f957809966c46d::t_5cb1abd89df074 1-78
+main.py
+  s_aa90c57608d995::t_d96353bd8b429d 1-148
+uv.lock
+  s_aa90c57608d995::t_ff21385f1a4d08 1-8
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "64fe917a0c2731523a66c2f0f2bd987f0aae2ec1",
+  "prompts": {},
+  "sessions": {
+    "s_aa90c57608d995": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019f9373-3e73-73c3-9b84-48f61cada7b5",
+        "model": "unknown"
+      },
+      "human_author": "liweijie <liweijie.jesse@bytedance.com>"
+    },
+    "s_f957809966c46d": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019f938c-3ac2-7c91-b69f-698546091c73",
+        "model": "unknown"
+      },
+      "human_author": "liweijie <liweijie.jesse@bytedance.com>"
+    }
+  },
+  "attestation_metadata": {},
+  "remote_transcripts": {}
+}
