@@ -1,0 +1,169 @@
+const state = { article: null, articles: [], pages: [], page: 0, request: 0 };
+const $ = (selector) => document.querySelector(selector);
+
+function escapeHtml(value) {
+  return String(value)
+    .replaceAll('&', '&amp;')
+    .replaceAll('<', '&lt;')
+    .replaceAll('>', '&gt;');
+}
+
+function withFootnoteLinks(text) {
+  return escapeHtml(text).replace(/〔(\d+)〕/g, '<sup class="footnote-ref">$1</sup>');
+}
+
+function paginate(blocks) {
+  const leaves = [];
+  let leaf = [];
+  let weight = 0;
+  for (const [paragraphIndex, originalBlock] of blocks.entries()) {
+    const pieces = originalBlock.kind === 'paragraph'
+      ? originalBlock.text.match(/.{1,170}/gu).map((text) => ({
+        ...originalBlock,
+        text,
+        paragraphIndex,
+      }))
+      : [originalBlock];
+    for (const block of pieces) {
+      const nextWeight = block.text.length + (block.kind === 'heading' ? 45 : 0);
+      const headingNeedsBody = leaf.length === 1 && leaf[0].kind === 'heading';
+      if (leaf.length && weight + nextWeight > 900 && !headingNeedsBody) {
+        leaves.push(leaf);
+        leaf = [];
+        weight = 0;
+      }
+      leaf.push(block);
+      weight += nextWeight;
+    }
+  }
+  if (leaf.length) leaves.push(leaf);
+  if (!leaves.length) leaves.push([{ kind: 'paragraph', text: '此篇文章暂无可显示的正文。' }]);
+  return Array.from({ length: Math.ceil(leaves.length / 2) }, (_, index) => leaves.slice(index * 2, index * 2 + 2));
+}
+
+function renderLeaf(blocks, pageNumber) {
+  if (!blocks) return '<section class="book-page book-page-empty"><span>—</span><small>全文至此</small></section>';
+  const content = [];
+  for (let index = 0; index < blocks.length; index += 1) {
+    const block = blocks[index];
+    if (block.kind === 'paragraph') {
+      let text = block.text;
+      while (blocks[index + 1]?.paragraphIndex === block.paragraphIndex) {
+        text += blocks[index + 1].text;
+        index += 1;
+      }
+      content.push(`<p>${withFootnoteLinks(text)}</p>`);
+      continue;
+    }
+    if (block.kind === 'heading') content.push(`<h2>${withFootnoteLinks(block.text)}</h2>`);
+    if (block.kind === 'quote') content.push(`<blockquote>${withFootnoteLinks(block.text)}</blockquote>`);
+  }
+  return `<section class="book-page">
+    <span class="leaf-number">${String(pageNumber).padStart(2, '0')}</span>
+    <div class="leaf-content">${content.join('')}</div>
+  </section>`;
+}
+
+function renderToc() {
+  $('#toc-list').innerHTML = state.articles.map((article) => `
+    <button class="toc-item ${article.id === state.article?.id ? 'active' : ''}" data-article-id="${escapeHtml(article.id)}"${article.id === state.article?.id ? ' aria-current="page"' : ''}>
+      <span>${escapeHtml(article.id)}</span>${escapeHtml(article.title)}
+    </button>`).join('');
+}
+
+function goToPage(page) {
+  state.page = page;
+  renderPage();
+  $('.reader-shell').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function renderPage() {
+  const spread = state.pages[state.page];
+  const firstLeaf = state.page * 2 + 1;
+  const totalLeaves = state.pages.flat().length;
+  $('#cards').innerHTML = `<div class="book-spread" style="--spread-index:${state.page}">
+    ${renderLeaf(spread[0], firstLeaf)}
+    ${renderLeaf(spread[1], firstLeaf + 1)}
+  </div>`;
+  const range = spread[1] ? `${String(firstLeaf).padStart(2, '0')}—${String(firstLeaf + 1).padStart(2, '0')}` : String(firstLeaf).padStart(2, '0');
+  $('#page-counter').textContent = `${range} / ${String(totalLeaves).padStart(2, '0')}`;
+  $('#prev-page').disabled = state.page === 0;
+  $('#next-page').disabled = state.page === state.pages.length - 1;
+  $('#page-dots').innerHTML = state.pages.map((_, index) => `<button class="dot ${index === state.page ? 'active' : ''}" aria-label="第 ${index + 1} 页" data-page="${index}"></button>`).join('');
+  document.querySelectorAll('.dot').forEach((dot) => dot.addEventListener('click', () => {
+    goToPage(Number(dot.dataset.page));
+  }));
+  renderToc();
+}
+
+function renderNotes(notes) {
+  if (!notes.length) {
+    $('#notes-section').hidden = true;
+    return;
+  }
+  $('#notes-section').hidden = false;
+  $('#notes').innerHTML = notes.map((note) => `
+    <article class="note"><span class="note-number">${note.number}</span><p>${escapeHtml(note.text)}</p></article>`).join('');
+}
+
+function renderArticle(article) {
+  state.article = article;
+  state.pages = paginate(article.body);
+  state.page = 0;
+  $('#article-id').textContent = `ESSAY · ${article.id}`;
+  $('#article-title').textContent = article.title;
+  $('#article-date').textContent = article.date;
+  $('#article-intro').textContent = article.notes.length ? `本篇附有 ${article.notes.length} 条注释，可在文末查阅。` : '每一次进入，随机遇见一篇文字。';
+  renderNotes(article.notes);
+  renderPage();
+}
+
+async function loadArticle(path, scrollToReader = false) {
+  const request = ++state.request;
+  $('#cards').innerHTML = $('#loading-template').innerHTML;
+  $('#random-button').disabled = true;
+  try {
+    const response = await fetch(path, { cache: 'no-store' });
+    if (!response.ok) throw new Error('无法读取本地文章');
+    const article = await response.json();
+    if (request !== state.request) return;
+    renderArticle(article);
+    if (scrollToReader) $('.reader-shell').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  } catch (error) {
+    if (request !== state.request) return;
+    $('#cards').innerHTML = `<div class="error-card">${escapeHtml(error.message)}。请确认服务从项目根目录启动。</div>`;
+  } finally {
+    if (request === state.request) $('#random-button').disabled = false;
+  }
+}
+
+async function loadArticles() {
+  try {
+    const response = await fetch('/api/articles', { cache: 'no-store' });
+    if (!response.ok) throw new Error('无法读取文章目录');
+    state.articles = await response.json();
+    renderToc();
+  } catch (error) {
+    $('#toc-list').innerHTML = `<p class="toc-empty">${escapeHtml(error.message)}</p>`;
+  }
+}
+
+function loadRandom() {
+  return loadArticle('/api/random');
+}
+
+$('#prev-page').addEventListener('click', () => {
+  if (state.page) goToPage(state.page - 1);
+});
+$('#next-page').addEventListener('click', () => {
+  if (state.page < state.pages.length - 1) goToPage(state.page + 1);
+});
+$('#toc-list').addEventListener('click', (event) => {
+  const item = event.target.closest('.toc-item');
+  if (item && item.dataset.articleId !== state.article?.id) {
+    loadArticle(`/api/article/${encodeURIComponent(item.dataset.articleId)}`, true);
+  }
+});
+$('#random-button').addEventListener('click', loadRandom);
+loadArticles();
+loadRandom();

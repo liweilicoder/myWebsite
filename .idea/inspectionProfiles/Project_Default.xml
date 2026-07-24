@@ -1,0 +1,36 @@
+<component name="InspectionProjectProfileManager">
+  <profile version="1.0">
+    <option name="myName" value="Project Default" />
+    <inspection_tool class="PyPackageRequirementsInspection" enabled="true" level="WARNING" enabled_by_default="true">
+      <option name="ignoredPackages">
+        <list>
+          <option value="idna" />
+          <option value="langgraph" />
+          <option value="streamlit" />
+          <option value="aiohttp" />
+          <option value="cryptography" />
+          <option value="dashscope" />
+          <option value="langchain-core" />
+          <option value="langchain-openai" />
+          <option value="openai" />
+          <option value="plotly" />
+          <option value="tqdm" />
+          <option value="transformers" />
+          <option value="anyio" />
+          <option value="certifi" />
+          <option value="jiter" />
+          <option value="pandas" />
+          <option value="sentence-transformers" />
+          <option value="torch" />
+        </list>
+      </option>
+    </inspection_tool>
+    <inspection_tool class="PyPep8NamingInspection" enabled="true" level="WEAK WARNING" enabled_by_default="true">
+      <option name="ignoredErrors">
+        <list>
+          <option value="N803" />
+        </list>
+      </option>
+    </inspection_tool>
+  </profile>
+</component>

@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#891d19" />
+    <title>选集 · 随机阅读</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Ma+Shan+Zheng&family=Noto+Serif+SC:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/static/style.css" />
+  </head>
+  <body>
+    <div class="paper-grain"></div>
+    <header class="topbar">
+      <a class="brand" href="/" aria-label="回到首页">
+        <span class="brand-mark">毛</span>
+        <span>选集 · 随机阅读</span>
+      </a>
+      <div class="topbar-actions">
+        <span id="article-id" class="article-id">VOL. —</span>
+        <button class="text-button" id="random-button">换一篇 <span>↗</span></button>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero" aria-labelledby="article-title">
+        <div class="hero-copy">
+          <p class="eyebrow">毛泽东选集 · 第一至五卷</p>
+          <h1 id="article-title">正在翻阅书页</h1>
+          <p id="article-date" class="article-date"></p>
+          <p id="article-intro" class="article-intro">每一次进入，随机遇见一篇文字。</p>
+          <div class="hero-rule"><span></span><b>◎</b><span></span></div>
+        </div>
+        <figure class="portrait-wrap">
+          <div class="portrait-backdrop"></div>
+          <img src="/static/mao-portrait.png" alt="毛泽东木刻风格肖像" />
+          <figcaption>读 · 思 · 行</figcaption>
+        </figure>
+      </section>
+
+      <div class="reading-layout">
+        <aside class="table-of-contents" aria-label="文章目录">
+          <div class="toc-heading">
+            <p class="eyebrow">CONTENTS</p>
+            <h2>目录</h2>
+          </div>
+          <nav id="toc-list" class="toc-list" aria-label="全部文章目录"></nav>
+        </aside>
+
+        <section class="reader-shell" aria-live="polite">
+          <div class="reader-meta">
+            <span id="reading-label">正文</span>
+            <span id="page-counter">01 / 01</span>
+          </div>
+          <article id="cards" class="cards"></article>
+          <nav class="pagination" aria-label="文章分页">
+            <button id="prev-page" aria-label="上一页">← <span>上一页</span></button>
+            <div id="page-dots" class="page-dots"></div>
+            <button id="next-page" aria-label="下一页"><span>下一页</span> →</button>
+          </nav>
+        </section>
+      </div>
+
+      <section id="notes-section" class="notes-section" hidden>
+        <div class="notes-heading">
+          <p class="eyebrow">ANNOTATIONS</p>
+          <h2>注释</h2>
+        </div>
+        <div id="notes" class="notes"></div>
+      </section>
+    </main>
+
+    <footer>文字来源：本地 article 文件夹 · 随机阅读，不替代原始版本校勘</footer>
+    <template id="loading-template"><div class="loading">正在展开这一页文字<span>...</span></div></template>
+    <script src="/static/app.js"></script>
+  </body>
+</html>
