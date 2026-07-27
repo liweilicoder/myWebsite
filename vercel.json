@@ -1,11 +1,8 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
-  "rewrites": [
-    { "source": "/api/random", "destination": "/api/reader?route=random" },
-    { "source": "/api/articles", "destination": "/api/reader?route=articles" },
-    {
-      "source": "/api/article/:id",
-      "destination": "/api/reader?route=article&id=:id"
+  "functions": {
+    "main.py": {
+      "includeFiles": "{article/**,static/**,index.html}"
     }
-  ]
+  }
 }

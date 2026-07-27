@@ -5,4 +5,4 @@ requires-python = ">=3.14"
 dependencies = []
 
 [tool.vercel]
-entrypoint = "api.reader:handler"
+entrypoint = "main:handler"

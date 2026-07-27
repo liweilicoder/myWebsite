@@ -142,6 +142,10 @@ class ReaderHandler(SimpleHTTPRequestHandler):
         print("[reader] " + format % args)
 
 
+# Vercel imports this handler for the root application entrypoint.
+handler = ReaderHandler
+
+
 if __name__ == "__main__":
     host, port = "127.0.0.1", 8000
     print(f"毛泽东选集随机阅读器已启动：http://{host}:{port}")

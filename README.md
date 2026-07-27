@@ -79,4 +79,8 @@ curl -fsS http://127.0.0.1:8000/api/random
 2. 导入本仓库，选择 **Other** 作为 Framework Preset，Root Directory 保持仓库根目录。
 3. 不需要 Build Command、环境变量或第三方依赖；点击 **Deploy**。
 
-Vercel 会将静态页面直接托管，并通过 `api/reader.py` 提供现有的文章 API。每次推送到生产分支会更新生产站点；其他分支和 Pull Request 会创建预览部署。
+Vercel 会通过 `main:handler` 服务首页、静态资源和现有文章 API。每次推送到生产分支会更新生产站点；其他分支和 Pull Request 会创建预览部署。
+
+### 绑定自定义域名
+
+在 Vercel 项目的 **Settings → Domains** 中添加根域名与 `www` 子域名，并在现有 DNS 服务商处按 Vercel 页面给出的精确值配置记录。将 `www` 设为主域名，再把根域名重定向到 `www`。验证通过后，Vercel 会自动签发 HTTPS 证书。
