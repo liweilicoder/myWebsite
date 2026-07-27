@@ -1,0 +1,27 @@
+README.md
+  s_1abba7e1919e5b::t_7877fc12e84cfe 82-86
+main.py
+  s_1abba7e1919e5b::t_a6ab8532ef8d97 145-148
+pyproject.toml
+  s_1abba7e1919e5b::t_d553dcd621f5d9 8
+vercel.json
+  s_1abba7e1919e5b::t_d259560d4fef5d 3-5,7
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "46a447ef4522e9e4b56658a2237c8107c6d53694",
+  "prompts": {},
+  "sessions": {
+    "s_1abba7e1919e5b": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019fa2e0-49e5-7bd2-8ed2-bdca044e02fd",
+        "model": "unknown"
+      },
+      "human_author": "liweijie <liweijie.jesse@bytedance.com>"
+    }
+  },
+  "attestation_metadata": {},
+  "remote_transcripts": {}
+}
