@@ -1,0 +1,21 @@
+pyproject.toml
+  s_1abba7e1919e5b::t_12995f0df579bf 6-8
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "92859f562b4a8908889f002d58c480eaf419bc7f",
+  "prompts": {},
+  "sessions": {
+    "s_1abba7e1919e5b": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019fa2e0-49e5-7bd2-8ed2-bdca044e02fd",
+        "model": "unknown"
+      },
+      "human_author": "liweijie <liweijie.jesse@bytedance.com>"
+    }
+  },
+  "attestation_metadata": {},
+  "remote_transcripts": {}
+}
