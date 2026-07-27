@@ -1,0 +1,21 @@
+main.py
+  s_1abba7e1919e5b::t_4e671886d411d3 145-149
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "b7e3185ca2ce261e67d11a5996beb9844c4b69ca",
+  "prompts": {},
+  "sessions": {
+    "s_1abba7e1919e5b": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019fa2e0-49e5-7bd2-8ed2-bdca044e02fd",
+        "model": "unknown"
+      },
+      "human_author": "liweijie <liweijie.jesse@bytedance.com>"
+    }
+  },
+  "attestation_metadata": {},
+  "remote_transcripts": {}
+}
