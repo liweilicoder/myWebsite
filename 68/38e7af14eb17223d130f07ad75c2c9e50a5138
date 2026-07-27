@@ -1,0 +1,23 @@
+static/app.js
+  s_33853c061d2583::t_45b4c2b6d3f9a7 16-19,22-46,49,56-57,59,62-63,68
+static/style.css
+  s_33853c061d2583::t_7b180bae760dbb 41,43
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "6838e7af14eb17223d130f07ad75c2c9e50a5138",
+  "prompts": {},
+  "sessions": {
+    "s_33853c061d2583": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019fa2d9-105e-79b1-a0bc-241f9bda98a8",
+        "model": "unknown"
+      },
+      "human_author": "liweijie <liweijie.jesse@bytedance.com>"
+    }
+  },
+  "attestation_metadata": {},
+  "remote_transcripts": {}
+}
