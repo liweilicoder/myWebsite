@@ -1,0 +1,21 @@
+README.md
+  s_2a75410903d404::t_55faa20c5aa335 1-74
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "1bf963907be46ce6e59e002eda955ffb08551df5",
+  "prompts": {},
+  "sessions": {
+    "s_2a75410903d404": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019fa176-f4e9-7d11-9f52-8cef9d0e7da7",
+        "model": "unknown"
+      },
+      "human_author": "liweijie <liweijie.jesse@bytedance.com>"
+    }
+  },
+  "attestation_metadata": {},
+  "remote_transcripts": {}
+}
