@@ -3,9 +3,9 @@ const $ = (selector) => document.querySelector(selector);
 
 function escapeHtml(value) {
   return String(value)
-    .replaceAll('&', '&amp;')
-    .replaceAll('<', '&lt;')
-    .replaceAll('>', '&gt;');
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;');
 }
 
 function withFootnoteLinks(text) {
@@ -34,8 +34,8 @@ function paginate(blocks) {
     - 14;
 
   const addBlock = (block) => {
-    const previous = leaf.at(-1);
-    if (block.kind === 'paragraph' && previous?.paragraphIndex === block.paragraphIndex) {
+    const previous = leaf[leaf.length - 1];
+    if (block.kind === 'paragraph' && previous && previous.paragraphIndex === block.paragraphIndex) {
       content.lastElementChild.insertAdjacentHTML('beforeend', withFootnoteLinks(block.text));
       return;
     }
@@ -46,7 +46,7 @@ function paginate(blocks) {
 
   for (const [paragraphIndex, originalBlock] of blocks.entries()) {
     const pieces = originalBlock.kind === 'paragraph'
-      ? (originalBlock.text.match(/.{1,18}/gu) ?? ['']).map((text) => ({
+      ? (originalBlock.text.match(/.{1,18}/gu) || ['']).map((text) => ({
         ...originalBlock,
         text,
         paragraphIndex,
@@ -78,7 +78,10 @@ function renderLeaf(blocks, pageNumber) {
     const block = blocks[index];
     if (block.kind === 'paragraph') {
       let text = block.text;
-      while (blocks[index + 1]?.paragraphIndex === block.paragraphIndex) {
+      while (
+        index + 1 < blocks.length
+        && blocks[index + 1].paragraphIndex === block.paragraphIndex
+      ) {
         text += blocks[index + 1].text;
         index += 1;
       }
@@ -96,7 +99,7 @@ function renderLeaf(blocks, pageNumber) {
 
 function renderToc() {
   $('#toc-list').innerHTML = state.articles.map((article) => `
-    <button class="toc-item ${article.id === state.article?.id ? 'active' : ''}" data-article-id="${escapeHtml(article.id)}"${article.id === state.article?.id ? ' aria-current="page"' : ''}>
+    <button class="toc-item ${state.article && article.id === state.article.id ? 'active' : ''}" data-article-id="${escapeHtml(article.id)}"${state.article && article.id === state.article.id ? ' aria-current="page"' : ''}>
       <span>${escapeHtml(article.id)}</span>${escapeHtml(article.title)}
     </button>`).join('');
 }
@@ -110,7 +113,7 @@ function goToPage(page) {
 function renderPage() {
   const spread = state.pages[state.page];
   const firstLeaf = state.page * 2 + 1;
-  const totalLeaves = state.pages.flat().length;
+  const totalLeaves = state.pages.reduce((total, page) => total + page.length, 0);
   $('#cards').innerHTML = `<div class="book-spread" style="--spread-index:${state.page}">
     ${renderLeaf(spread[0], firstLeaf)}
     ${renderLeaf(spread[1], firstLeaf + 1)}
@@ -190,7 +193,7 @@ $('#next-page').addEventListener('click', () => {
 });
 $('#toc-list').addEventListener('click', (event) => {
   const item = event.target.closest('.toc-item');
-  if (item && item.dataset.articleId !== state.article?.id) {
+  if (item && (!state.article || item.dataset.articleId !== state.article.id)) {
     loadArticle(`/api/article/${encodeURIComponent(item.dataset.articleId)}`, true);
   }
 });
