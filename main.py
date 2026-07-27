@@ -119,7 +119,7 @@ class ReaderHandler(SimpleHTTPRequestHandler):
             if match:
                 self.send_json(parse_article(match))
             else:
-                self.send_error(HTTPStatus.NOT_FOUND, "文章不存在")
+                self.send_error(HTTPStatus.NOT_FOUND, "Article not found")
             return
         if route == "/":
             self.path = "/index.html"

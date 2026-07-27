@@ -1,6 +1,6 @@
 # 毛泽东选集随机阅读器
 
-一个零依赖、仅在本地运行的 Web 阅读器。它从 `article/` 中读取 Markdown 文章，随机展示一篇文章，并将正文、分页与注释分开展示。
+一个零依赖 Web 阅读器。它从 `article/` 中读取 Markdown 文章，随机展示一篇文章，并将正文、分页与注释分开展示。可在本地运行，也可部署到 Vercel。
 
 ## 功能
 
@@ -72,3 +72,11 @@ curl -fsS http://127.0.0.1:8000/api/random
 ```
 
 再在浏览器检查首页加载、“换一篇”、目录跳转、分页和注释区域是否正常工作。
+
+## 部署到 Vercel
+
+1. 使用 GitHub 登录 [Vercel](https://vercel.com/)，选择 **New Project**。
+2. 导入本仓库，选择 **Other** 作为 Framework Preset，Root Directory 保持仓库根目录。
+3. 不需要 Build Command、环境变量或第三方依赖；点击 **Deploy**。
+
+Vercel 会将静态页面直接托管，并通过 `api/reader.py` 提供现有的文章 API。每次推送到生产分支会更新生产站点；其他分支和 Pull Request 会创建预览部署。
