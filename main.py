@@ -142,6 +142,11 @@ class ReaderHandler(SimpleHTTPRequestHandler):
         print("[reader] " + format % args)
 
 
+# Vercel detects root-level Python applications through this conventional name.
+# The local server continues to instantiate the same class directly below.
+handler = ReaderHandler
+
+
 if __name__ == "__main__":
     host, port = "127.0.0.1", 8000
     print(f"毛泽东选集随机阅读器已启动：http://{host}:{port}")
