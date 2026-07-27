@@ -1,0 +1,23 @@
+README.md
+  s_1abba7e1919e5b::t_61daa22cc81851 3,75-82
+vercel.json
+  s_1abba7e1919e5b::t_057778bc0653d7 1-11
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "8af09a5bc3709495dbc5b12137d2a6a3fe0f4b6a",
+  "prompts": {},
+  "sessions": {
+    "s_1abba7e1919e5b": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019fa2e0-49e5-7bd2-8ed2-bdca044e02fd",
+        "model": "unknown"
+      },
+      "human_author": "liweijie <liweijie.jesse@bytedance.com>"
+    }
+  },
+  "attestation_metadata": {},
+  "remote_transcripts": {}
+}
