@@ -1,0 +1,21 @@
+index.html
+  s_9de4c89ded7fbe::t_47434534a25bdb 7
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "109f9c49728e0459a0195ab734484007a260cd34",
+  "prompts": {},
+  "sessions": {
+    "s_9de4c89ded7fbe": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019fa34b-9883-7f80-9189-e907583b3f31",
+        "model": "unknown"
+      },
+      "human_author": "liweijie <liweijie.jesse@bytedance.com>"
+    }
+  },
+  "attestation_metadata": {},
+  "remote_transcripts": {}
+}
