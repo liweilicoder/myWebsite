@@ -13,29 +13,59 @@ function withFootnoteLinks(text) {
 }
 
 function paginate(blocks) {
+  if (window.matchMedia('(max-width: 720px)').matches) {
+    return [[blocks]];
+  }
+
   const leaves = [];
   let leaf = [];
-  let weight = 0;
+  const measure = document.createElement('div');
+  measure.className = 'book-spread pagination-measure';
+  measure.setAttribute('aria-hidden', 'true');
+  measure.innerHTML = '<section class="book-page"><div class="leaf-content"></div></section>';
+  $('#cards').append(measure);
+
+  const page = measure.querySelector('.book-page');
+  const content = measure.querySelector('.leaf-content');
+  const pageStyle = getComputedStyle(page);
+  const availableHeight = page.clientHeight
+    - Number.parseFloat(pageStyle.paddingTop)
+    - Number.parseFloat(pageStyle.paddingBottom)
+    - 14;
+
+  const addBlock = (block) => {
+    const previous = leaf.at(-1);
+    if (block.kind === 'paragraph' && previous?.paragraphIndex === block.paragraphIndex) {
+      content.lastElementChild.insertAdjacentHTML('beforeend', withFootnoteLinks(block.text));
+      return;
+    }
+    const element = document.createElement(block.kind === 'heading' ? 'h2' : block.kind === 'quote' ? 'blockquote' : 'p');
+    element.innerHTML = withFootnoteLinks(block.text);
+    content.append(element);
+  };
+
   for (const [paragraphIndex, originalBlock] of blocks.entries()) {
     const pieces = originalBlock.kind === 'paragraph'
-      ? originalBlock.text.match(/.{1,170}/gu).map((text) => ({
+      ? (originalBlock.text.match(/.{1,18}/gu) ?? ['']).map((text) => ({
         ...originalBlock,
         text,
         paragraphIndex,
       }))
       : [originalBlock];
     for (const block of pieces) {
-      const nextWeight = block.text.length + (block.kind === 'heading' ? 45 : 0);
+      addBlock(block);
+      const overflows = content.scrollHeight > availableHeight;
       const headingNeedsBody = leaf.length === 1 && leaf[0].kind === 'heading';
-      if (leaf.length && weight + nextWeight > 900 && !headingNeedsBody) {
+      if (leaf.length && overflows && !headingNeedsBody) {
         leaves.push(leaf);
         leaf = [];
-        weight = 0;
+        content.innerHTML = '';
+        addBlock(block);
       }
       leaf.push(block);
-      weight += nextWeight;
     }
   }
+  measure.remove();
   if (leaf.length) leaves.push(leaf);
   if (!leaves.length) leaves.push([{ kind: 'paragraph', text: '此篇文章暂无可显示的正文。' }]);
   return Array.from({ length: Math.ceil(leaves.length / 2) }, (_, index) => leaves.slice(index * 2, index * 2 + 2));
