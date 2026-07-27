@@ -1,0 +1,21 @@
+static/app.js
+  s_5d5c97b62b48ec::t_e38c59f7ffca26 6-8,37-38,49,81-84,102,116,196
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "9da3c30850500aa16a604beabc653bdf09908964",
+  "prompts": {},
+  "sessions": {
+    "s_5d5c97b62b48ec": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019fa342-864e-7043-895b-0a3c04a191f1",
+        "model": "unknown"
+      },
+      "human_author": "liweijie <liweijie.jesse@bytedance.com>"
+    }
+  },
+  "attestation_metadata": {},
+  "remote_transcripts": {}
+}
